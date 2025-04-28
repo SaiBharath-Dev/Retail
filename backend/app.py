@@ -6,6 +6,26 @@ app = Flask(__name__, template_folder='../frontend/templates')
 app.config.from_pyfile('config.py')
 db.init_app(app)
 
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
+
+# Create the Flask app
+app = Flask(__name__)
+
+# Load configurations
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+
+# Initialize the database
+db = SQLAlchemy(app)
+
+# Simple route to test DB connection
+@app.route('/')
+def index():
+    result = db.session.execute("SELECT now()").fetchone()
+    return f"Database time: {result[0]}"
+
 @app.route('/')
 def login():
     return render_template('login.html')
