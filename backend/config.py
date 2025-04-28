@@ -1,8 +1,11 @@
 import os
 from sqlalchemy import create_engine
 
-# Load database URL from environment variables
-DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+DATABASE_URL = "cockroachdb://harshita:NFAvvRIAIO7JeAiXOJBaxw@hostname:26257/defaultdb"
+engine = create_engine(DATABASE_URL)
+
 
 # Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
