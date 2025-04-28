@@ -8,4 +8,5 @@ plotly
 gunicorn
 mlxtend
 psycopg2-binary
-SQLAlchemy
+sqlalchemy-cockroachdb
+
