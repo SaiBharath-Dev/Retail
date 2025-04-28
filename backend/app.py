@@ -8,6 +8,7 @@ db.init_app(app)
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
 
 # Create the Flask app
@@ -23,8 +24,9 @@ db = SQLAlchemy(app)
 # Simple route to test DB connection
 @app.route('/')
 def index():
-    result = db.session.execute("SELECT now()").fetchone()
+    result = db.session.execute(text("SELECT now()")).fetchone()
     return f"Database time: {result[0]}"
+
 
 @app.route('/')
 def login():
