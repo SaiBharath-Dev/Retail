@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Data Pull</title></head>
+<body>
+  <h2>Search Transactions by HSHD_NUM</h2>
+  <form method="post">
+    <input type="number" name="hshd_num" placeholder="Household Number">
+    <button type="submit">Search</button>
+  </form>
+  {% if results %}
+    <table border="1">
+      <tr>
+        <th>HSHD_NUM</th><th>BASKET_NUM</th><th>DATE</th><th>PRODUCT_NUM</th>
+        <th>DEPARTMENT</th><th>COMMODITY</th><th>SPEND</th><th>UNITS</th>
+      </tr>
+      {% for row in results %}
+      <tr>
+        {% for col in row %}
+        <td>{{ col }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</body>
+</html>
