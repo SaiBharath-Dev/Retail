@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 
 
 
-DATABASE_URL = "cockroachdb://harshita:NFAvvRIAIO7JeAiXOJBaxw@hostname:26257/defaultdb"
+DATABASE_URL = "cockroachdb://harshita:NFAvvRIAIO7JeAiXOJBaxw@retaildb-10729.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=require"
 engine = create_engine(DATABASE_URL)
 
 
