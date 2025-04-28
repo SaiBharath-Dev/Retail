@@ -1,26 +1,55 @@
+<!-- Example of what your template might look like -->
 <!DOCTYPE html>
 <html>
-<head><title>Data Pull</title></head>
+<head>
+    <title>Data Pull Results</title>
+</head>
 <body>
-  <h2>Search Transactions by HSHD_NUM</h2>
-  <form method="post">
-    <input type="number" name="hshd_num" placeholder="Household Number">
-    <button type="submit">Search</button>
-  </form>
-  {% if results %}
-    <table border="1">
-      <tr>
-        <th>HSHD_NUM</th><th>BASKET_NUM</th><th>DATE</th><th>PRODUCT_NUM</th>
-        <th>DEPARTMENT</th><th>COMMODITY</th><th>SPEND</th><th>UNITS</th>
-      </tr>
-      {% for row in results %}
-      <tr>
-        {% for col in row %}
-        <td>{{ col }}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-  {% endif %}
+    <h1>Data Pull Results</h1>
+    
+    <form method="POST">
+        <label for="hshd_num">Household Number:</label>
+        <input type="text" id="hshd_num" name="hshd_num" required>
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if error %}
+        <div class="error">
+            <p>Error: {{ error }}</p>
+        </div>
+    {% endif %}
+    
+    {% if results %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Household #</th>
+                    <th>Basket #</th>
+                    <th>Date</th>
+                    <th>Product #</th>
+                    <th>Department</th>
+                    <th>Commodity</th>
+                    <th>Spend</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.hshd_num }}</td>
+                    <td>{{ result.basket_num }}</td>
+                    <td>{{ result.date }}</td>
+                    <td>{{ result.product_num }}</td>
+                    <td>{{ result.department }}</td>
+                    <td>{{ result.commodity }}</td>
+                    <td>{{ result.spend }}</td>
+                    <td>{{ result.units }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
 </body>
 </html>
