@@ -9,4 +9,9 @@ gunicorn
 mlxtend
 psycopg2-binary
 sqlalchemy-cockroachdb
-
+plotly
+numpy
+Flask-Session
+pytz
+pandas
+Werkzeug
