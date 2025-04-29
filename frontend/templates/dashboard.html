@@ -4,64 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retail Insights Dashboard</title>
-    <!-- Bootstrap for table styling -->
+    <!-- Bootstrap for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            color: #fff;
+        }
+        .user-email {
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        .logout-btn {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
 </head>
-<!-- Add this to your dashboard.html navigation bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Consumer Insights Dashboard</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('data_pull') }}">Data Pull</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('upload_data') }}">Upload New Data</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('check_columns') }}">Check Columns</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 <body>
+    <!-- Navigation Bar with Logout -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Consumer Insights Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('data_pull') }}">Data Pull</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('upload_data') }}">Upload New Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('check_columns') }}">Check Columns</a>
+                    </li>
+                </ul>
+                <!-- User info and logout button -->
+                <div class="user-info">
+                    <span class="user-email">{{ session.email }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div class="container">
         <h1 class="my-4">Retail Insights Dashboard</h1>
-
+        
         <h2>Demographics and Engagement</h2>
         <div>{{ demographics_table|safe }}</div>
-
+        
         <h2>Engagement Over Time</h2>
         <div>{{ engagement_graph|safe }}</div>
-
+        
         <h2>Seasonal Trends</h2>
         <div>{{ seasonal_graph|safe }}</div>
-
+        
         <h2>Brand Preferences</h2>
         <div>{{ brand_graph|safe }}</div>
-
+        
         <h2>Top-Selling Products</h2>
-<div>{{ top_products_graph|safe }}</div>
-
-<h2>Category Spend Distribution</h2>
-<div>{{ category_spend_graph|safe }}</div>
-
-<h2>Average Basket Size per Household</h2>
-<div>{{ avg_basket_graph|safe }}</div>
-
-<h2>Monthly Revenue Trends</h2>
-<div>{{ monthly_revenue_graph|safe }}</div>
-
+        <div>{{ top_products_graph|safe }}</div>
+        
+        <h2>Category Spend Distribution</h2>
+        <div>{{ category_spend_graph|safe }}</div>
+        
+        <h2>Average Basket Size per Household</h2>
+        <div>{{ avg_basket_graph|safe }}</div>
+        
+        <h2>Monthly Revenue Trends</h2>
+        <div>{{ monthly_revenue_graph|safe }}</div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
