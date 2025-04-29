@@ -1,106 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Retail Analytics - Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #333;
-        }
-        nav {
-            background-color: #333;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .dashboard-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Insights Dashboard</title>
+    <!-- Bootstrap for table styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
+<!-- Add this to your dashboard.html navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Consumer Insights Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('data_pull') }}">Data Pull</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('upload_data') }}">Upload New Data</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('check_columns') }}">Check Columns</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 <body>
-    <nav>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/data_pull">Data Pull</a>
-        <a href="/upload">Upload Data</a>
-    </nav>
-    
     <div class="container">
-        <h1>Retail Analytics Dashboard</h1>
-        
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <h2>Demographics and Engagement</h2>
-                <p>Analysis of how household size, presence of children, location, and income affect customer engagement.</p>
-                <ul>
-                    <li>Higher income households spend more per transaction</li>
-                    <li>Families with children purchase more units per trip</li>
-                    <li>Urban households shop more frequently but spend less per trip</li>
-                </ul>
-            </div>
-            
-            <div class="dashboard-card">
-                <h2>Engagement Over Time</h2>
-                <p>Trends in household spending and product category popularity.</p>
-                <ul>
-                    <li>Overall spending increased 5% year-over-year</li>
-                    <li>Organic products showing 15% growth</li>
-                    <li>Frozen foods declining by 3% annually</li>
-                </ul>
-            </div>
-            
-            <div class="dashboard-card">
-                <h2>Basket Analysis</h2>
-                <p>Product combinations that drive cross-selling.</p>
-                <ul>
-                    <li>Bread and milk appearing in 65% of baskets</li>
-                    <li>Coffee buyers 3x more likely to buy breakfast items</li>
-                    <li>Wine purchasers frequently buy cheese (47% correlation)</li>
-                </ul>
-            </div>
-            
-            <div class="dashboard-card">
-                <h2>Seasonal Trends</h2>
-                <p>Seasonal patterns that inform inventory and promotions.</p>
-                <ul>
-                    <li>Ice cream sales peak in July-August</li>
-                    <li>Soup purchases increase 40% during winter months</li>
-                    <li>Holiday baking supplies surge in November-December</li>
-                </ul>
-            </div>
-        </div>
+        <h1 class="my-4">Retail Insights Dashboard</h1>
+
+        <h2>Demographics and Engagement</h2>
+        <div>{{ demographics_table|safe }}</div>
+
+        <h2>Engagement Over Time</h2>
+        <div>{{ engagement_graph|safe }}</div>
+
+        <h2>Seasonal Trends</h2>
+        <div>{{ seasonal_graph|safe }}</div>
+
+        <h2>Brand Preferences</h2>
+        <div>{{ brand_graph|safe }}</div>
+
+        <h2>Top-Selling Products</h2>
+<div>{{ top_products_graph|safe }}</div>
+
+<h2>Category Spend Distribution</h2>
+<div>{{ category_spend_graph|safe }}</div>
+
+<h2>Average Basket Size per Household</h2>
+<div>{{ avg_basket_graph|safe }}</div>
+
+<h2>Monthly Revenue Trends</h2>
+<div>{{ monthly_revenue_graph|safe }}</div>
+
     </div>
 </body>
 </html>
