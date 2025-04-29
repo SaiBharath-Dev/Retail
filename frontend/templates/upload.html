@@ -1,117 +1,461 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Retail Analytics - Upload Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Datasets | Retail Analytics</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+            background-color: var(--light-gray);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="file"] {
-            display: block;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            margin: 0 auto;
+            max-width: 850px;
             border: none;
-            border-radius: 4px;
+            border-radius: 0.5rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #ced4da;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .file-container {
+            position: relative;
+            padding: 1.5rem;
+            background-color: rgba(52, 152, 219, 0.05);
+            border: 2px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .file-container:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-color: rgba(52, 152, 219, 0.5);
+        }
+        
+        .file-input {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #45a049;
+        
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            color: var(--dark-gray);
         }
-        .message {
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 4px;
+        
+        .file-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
         }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        nav {
-            background-color: #333;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
+        
+        .file-name {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+            word-break: break-all;
             text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
         }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
+        
+        .file-help {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover, .btn-secondary:focus {
+            background-color: #5a6268;
+            border-color: #5a6268;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .alert {
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .required-field {
+            color: var(--accent-color);
+        }
+        
+        .progress {
+            height: 0.75rem;
+            border-radius: 1rem;
+            background-color: #e9ecef;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .progress-bar {
+            background-color: var(--secondary-color);
+            border-radius: 1rem;
+        }
+        
+        .note-card {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 0.25rem;
+        }
+        
+        .note-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note-content {
+            color: #495057;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+            .card-body {
+                padding: 1.5rem;
+            }
+            .file-container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/data_pull">Data Pull</a>
-        <a href="/upload">Upload Data</a>
-    </nav>
-    
     <div class="container">
-        <h1>Upload Data Files</h1>
-        <p>Use this form to upload the latest Households, Products, and Transactions datasets.</p>
+        <div class="header text-center">
+            <h2><i class="fas fa-cloud-upload-alt me-2"></i> Upload New Datasets</h2>
+            <p class="mb-0">Update the Transactions, Households, and Products data for retail analytics</p>
+        </div>
         
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="households">Households File:</label>
-                <input type="file" id="households" name="households" accept=".csv">
-            </div>
-            
-            <div class="form-group">
-                <label for="products">Products File:</label>
-                <input type="file" id="products" name="products" accept=".csv">
-            </div>
-            
-            <div class="form-group">
-                <label for="transactions">Transactions File:</label>
-                <input type="file" id="transactions" name="transactions" accept=".csv">
-            </div>
-            
-            <button type="submit">Upload Files</button>
-        </form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'info' %}fa-info-circle{% elif category == 'warning' %}fa-exclamation-circle{% elif category == 'error' or category == 'danger' %}fa-times-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         
-        {% if message %}
-            <div class="message {% if 'success' in message %}success{% else %}error{% endif %}">
-                {{ message }}
+        <div class="note-card">
+            <div class="note-title"><i class="fas fa-info-circle me-2"></i>Important Notes:</div>
+            <div class="note-content">
+                <ul class="mb-0">
+                    <li>All files must be in CSV format with headers.</li>
+                    <li>Your data will be incrementally loaded - only new records will be added.</li>
+                    <li>Large files (especially transactions) may take several minutes to process.</li>
+                    <li>Progress will be displayed in the terminal, and you'll be redirected when complete.</li>
+                </ul>
             </div>
-        {% endif %}
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-file-csv me-2"></i> Dataset Upload Form
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" id="upload-form">
+                    <!-- Transactions File -->
+                    <div class="form-group">
+                        <label for="transactions_file" class="form-label">Transactions File <span class="required-field">*</span></label>
+                        <div class="file-container" id="transactions-container">
+                            <input type="file" class="file-input" id="transactions_file" name="transactions_file" accept=".csv" required>
+                            <div class="file-label">
+                                <i class="fas fa-shopping-cart file-icon"></i>
+                                <span>Drag & drop or click to select Transactions CSV file</span>
+                                <div class="file-name" id="transactions-filename"></div>
+                            </div>
+                        </div>
+                        <div class="file-help">
+                            <i class="fas fa-info-circle me-1"></i> Required columns: hshd_num, basket_num, purchase_, product_num, spend, units
+                        </div>
+                        <div class="progress" id="transactions-progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Households File -->
+                    <div class="form-group">
+                        <label for="households_file" class="form-label">Households File <span class="required-field">*</span></label>
+                        <div class="file-container" id="households-container">
+                            <input type="file" class="file-input" id="households_file" name="households_file" accept=".csv" required>
+                            <div class="file-label">
+                                <i class="fas fa-home file-icon"></i>
+                                <span>Drag & drop or click to select Households CSV file</span>
+                                <div class="file-name" id="households-filename"></div>
+                            </div>
+                        </div>
+                        <div class="file-help">
+                            <i class="fas fa-info-circle me-1"></i> Required columns: hshd_num, loyalty, age_range, marital, income_range, homeowner, hshd_composition, hh_size, children
+                        </div>
+                        <div class="progress" id="households-progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products File -->
+                    <div class="form-group">
+                        <label for="products_file" class="form-label">Products File <span class="required-field">*</span></label>
+                        <div class="file-container" id="products-container">
+                            <input type="file" class="file-input" id="products_file" name="products_file" accept=".csv" required>
+                            <div class="file-label">
+                                <i class="fas fa-box file-icon"></i>
+                                <span>Drag & drop or click to select Products CSV file</span>
+                                <div class="file-name" id="products-filename"></div>
+                            </div>
+                        </div>
+                        <div class="file-help">
+                            <i class="fas fa-info-circle me-1"></i> Required columns: product_num, department, commodity, brand_ty, natural_organic_flag
+                        </div>
+                        <div class="progress" id="products-progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary" id="upload-btn">
+                            <i class="fas fa-cloud-upload-alt me-2"></i> Upload and Load Datasets
+                        </button>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                                <i class="fas fa-chart-bar me-2"></i> Return to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+    
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Display filename when files are selected
+        document.getElementById('transactions_file').addEventListener('change', function() {
+            displayFileName('transactions_file', 'transactions-filename');
+        });
+        
+        document.getElementById('households_file').addEventListener('change', function() {
+            displayFileName('households_file', 'households-filename');
+        });
+        
+        document.getElementById('products_file').addEventListener('change', function() {
+            displayFileName('products_file', 'products-filename');
+        });
+        
+        function displayFileName(inputId, displayId) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            
+            if (input.files.length > 0) {
+                const file = input.files[0];
+                display.textContent = file.name;
+                
+                // Show file size
+                const fileSizeKB = Math.round(file.size / 1024);
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                const sizeText = fileSizeKB < 1000 ? 
+                    `(${fileSizeKB} KB)` : 
+                    `(${fileSizeMB} MB)`;
+                
+                const sizeSpan = document.createElement('div');
+                sizeSpan.textContent = sizeText;
+                sizeSpan.style.fontSize = '0.8rem';
+                sizeSpan.style.color = '#6c757d';
+                display.appendChild(sizeSpan);
+                
+                // Highlight container
+                const container = input.parentElement;
+                container.style.borderColor = 'rgba(52, 152, 219, 0.7)';
+                container.style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
+            } else {
+                display.textContent = '';
+                
+                // Reset container
+                const container = input.parentElement;
+                container.style.borderColor = 'rgba(52, 152, 219, 0.3)';
+                container.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
+            }
+        }
+        
+        // Form submission handling
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            const transactionsFile = document.getElementById('transactions_file').files[0];
+            const householdsFile = document.getElementById('households_file').files[0];
+            const productsFile = document.getElementById('products_file').files[0];
+            
+            if (!transactionsFile || !householdsFile || !productsFile) {
+                event.preventDefault();
+                alert('Please select all three required files.');
+                return false;
+            }
+            
+            // Show loading state
+            const button = document.getElementById('upload-btn');
+            button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Uploading...';
+            button.disabled = true;
+            
+            // Show progress bars
+            document.getElementById('transactions-progress').style.display = 'flex';
+            document.getElementById('households-progress').style.display = 'flex';
+            document.getElementById('products-progress').style.display = 'flex';
+            
+            // Mock progress (since we can't track actual server-side progress)
+            simulateProgress('transactions-progress', 25000); // Longer for transactions
+            simulateProgress('households-progress', 8000);
+            simulateProgress('products-progress', 12000);
+            
+            return true;
+        });
+        
+        // Simulate progress bar for visual feedback
+        function simulateProgress(progressId, duration) {
+            const progressBar = document.querySelector(`#${progressId} .progress-bar`);
+            const start = Date.now();
+            
+            function updateProgress() {
+                const elapsed = Date.now() - start;
+                const progress = Math.min(elapsed / duration * 100, 95); // Max 95% until complete
+                
+                progressBar.style.width = progress + '%';
+                
+                if (progress < 95) {
+                    requestAnimationFrame(updateProgress);
+                }
+            }
+            
+            updateProgress();
+        }
+        
+        // Drag and drop handling
+        ['transactions-container', 'households-container', 'products-container'].forEach(containerId => {
+            const container = document.getElementById(containerId);
+            const fileInputId = containerId.replace('-container', '_file');
+            const fileInput = document.getElementById(fileInputId);
+            
+            container.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                container.style.borderColor = 'rgba(52, 152, 219, 0.8)';
+                container.style.backgroundColor = 'rgba(52, 152, 219, 0.15)';
+            });
+            
+            container.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                container.style.borderColor = 'rgba(52, 152, 219, 0.3)';
+                container.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
+            });
+            
+            container.addEventListener('drop', function(e) {
+                e.preventDefault();
+                container.style.borderColor = 'rgba(52, 152, 219, 0.3)';
+                container.style.backgroundColor = 'rgba(52, 152, 219, 0.05)';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
